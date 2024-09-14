@@ -4,8 +4,3 @@ export type Settings = {
   color: string;
   iconColor: string;
 };
-
-export type DataItem = {
-  _id?: string;
-  data: Record<string, any>;
-};

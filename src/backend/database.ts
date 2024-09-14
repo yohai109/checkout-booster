@@ -1,5 +1,9 @@
 import { items } from '@wix/data';
-import type { DataItem } from '../types';
+
+type DataItem = {
+  _id?: string;
+  data: Record<string, any>;
+};
 
 export const getDataFromCollection = async ({
   dataCollectionId
