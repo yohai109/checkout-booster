@@ -1,6 +1,7 @@
 import React, { useEffect, useState, type FC } from 'react';
 import { httpClient } from '@wix/essentials';
 import {
+  Box,
   Card,
   Cell,
   Layout,
@@ -31,7 +32,13 @@ const Index: FC = () => {
   return (
     <WixDesignSystemProvider features={{ newColorsBranding: true }}>
       {!settings ? (
-        <Loader />
+        <Box
+          height='100vh'
+          align='center'
+          verticalAlign='middle'
+        >
+          <Loader />
+        </Box>
       ) : (
         <Page height='100vh'>
           <Page.Header
