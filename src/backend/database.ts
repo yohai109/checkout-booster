@@ -1,5 +1,7 @@
 import { items } from '@wix/data';
 
+// Exposing utility functions over Wix Data APIs for easier usage and replacement of database
+
 type DataItem = {
   _id?: string;
   data: Record<string, any>;
@@ -26,7 +28,9 @@ export const safelyGetItemFromCollection = async ({
     );
 
     return data;
-  } catch (error) { }
+  } catch (error) {
+    // Wix data's "getDataItem" API throws exception when item with id does not exist
+  }
 };
 
 export const upsertDataToCollection = async ({

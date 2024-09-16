@@ -5,7 +5,7 @@ import type { Settings } from '../types'
 
 type Props = {
   settings: Settings;
-  ecomId?: string;
+  purchaseFlowId?: string;
   checkoutId?: string;
   checked?: boolean;
   refreshCheckout?: () => void;
@@ -13,7 +13,7 @@ type Props = {
 
 export const CarbonOffset: FC<Props> = ({
   settings,
-  ecomId,
+  purchaseFlowId,
   checkoutId,
   checked = false,
   refreshCheckout,
@@ -38,16 +38,21 @@ export const CarbonOffset: FC<Props> = ({
           type='checkbox'
           defaultChecked={checked}
           onChange={async (e) => {
-            if (ecomId) {
+            // We are using the same component both for rendering on site and for previewing in dashboard
+            // so we make sure it does not do anything when changing / clicking things in preview
+            if (purchaseFlowId) {
               await httpClient.fetchWithAuth(`${import.meta.env.BASE_API_URL}/checkout`, {
                 method: 'POST',
                 body: JSON.stringify({
-                  ecomId,
+                  purchaseFlowId,
                   checkoutId,
                   shouldAdd: e.target.checked,
                 }),
               });
 
+              // Known Issue: Refresh Checkout is not yet implemented in Custom Element plugins (Wix CLI)
+              // to workaround it after using the plugin in the site - go out of the checkout and back again
+              // in order for it to reload and call the relevant SPIs with you updated configurations
               refreshCheckout?.();
             };
           }}

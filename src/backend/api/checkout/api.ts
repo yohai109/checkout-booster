@@ -2,9 +2,9 @@ import { upsertDataToCollection, safelyGetItemFromCollection } from '../../datab
 import { CHECKOUT_COLLECTION_ID } from '../../consts';
 
 export async function GET(req: Request) {
-  const ecomId = new URL(req.url).searchParams.get('ecomId') as string;
+  const purchaseFlowId = new URL(req.url).searchParams.get('purchaseFlowId') as string;
   const checkoutData = await safelyGetItemFromCollection({
-    itemId: ecomId,
+    itemId: purchaseFlowId,
     dataCollectionId: CHECKOUT_COLLECTION_ID,
   });
 
@@ -12,13 +12,13 @@ export async function GET(req: Request) {
 };
 
 export async function POST(req: Request) {
-  const { ecomId, checkoutId, shouldAdd } = await req.json();
+  const { purchaseFlowId, checkoutId, shouldAdd } = await req.json();
 
   try {
     await upsertDataToCollection({
       dataCollectionId: CHECKOUT_COLLECTION_ID,
       item: {
-        _id: ecomId,
+        _id: purchaseFlowId,
         data: {
           checkoutId,
           shouldAdd,
@@ -26,6 +26,7 @@ export async function POST(req: Request) {
       },
     });
 
+    // 
     return new Response('Success');
   } catch (error) {
     console.log(error)

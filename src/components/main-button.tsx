@@ -20,8 +20,11 @@ export const MainButton: FC<Settings> = (settings) => {
           const { placementStatuses } = await placementResponse.json();
           const pluginExists = placementStatuses.find((el: any) => el.pluginId === PLUGIN_ID);
 
+          // Known Issue: seems like "placedInSlot" always returns as false
+          // During development change the boolean in this if statement manually
+          // in order to make the add plugin modal open if needed
           if (!pluginExists.placedInSlot) {
-            await dashboard.addSitePlugin('a37dc989-b6bc-43fd-8786-fe54bacd862e', {
+            await dashboard.addSitePlugin(PLUGIN_ID, {
               placement: {
                 appDefinitionId: WIX_ECOMMERCE_APP_ID,
                 widgetId: CHECKOUT_PAGE_ID,

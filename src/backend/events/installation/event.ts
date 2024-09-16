@@ -14,15 +14,17 @@ appInstances.onAppInstanceInstalled(() => {
       { key: 'iconColor', type: collections.Type.TEXT },
     ],
     permissions: {
+      // Make sure to change the permissions according to the actual usage of your collection
       insert: collections.Role.ANYONE,
       read: collections.Role.ANYONE,
       remove: collections.Role.ANYONE,
       update: collections.Role.ANYONE,
     },
+    // Plugin for single item collection
     plugins: [{
       type: collections.PluginType.SINGLE_ITEM,
       singleItemOptions: {
-        singleItemId: "SINGLE_ITEM_ID"
+        singleItemId: "SETTINGS"
       },
     }],
   });
@@ -31,10 +33,13 @@ appInstances.onAppInstanceInstalled(() => {
     _id: CHECKOUT_COLLECTION_ID,
     displayName: "Carbon Offset Checkout",
     fields: [
+      // In this case, checkoutId is stored as an "added" field that is not neccessarry
+      // the actual _id for each item of this collection will be purchaseFlowId for easy fetching
       { key: 'checkoutId', type: collections.Type.TEXT },
       { key: 'shouldAdd', type: collections.Type.BOOLEAN },
     ],
     permissions: {
+      // Make sure to change the permissions according to the actual usage of your collection
       insert: collections.Role.ANYONE,
       read: collections.Role.ANYONE,
       remove: collections.Role.ANYONE,

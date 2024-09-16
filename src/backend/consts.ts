@@ -1,5 +1,6 @@
 import type { Settings } from "../types";
 
+// Update according to your app's needed collections
 export const SETTINGS_COLLECTION_ID = 'carbon-offset-settings';
 export const CHECKOUT_COLLECTION_ID = 'carbon-offset-checkout';
 export const DEFAULT_SETTING: Settings = {

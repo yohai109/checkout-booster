@@ -25,7 +25,8 @@ export async function POST(req: Request) {
     await upsertDataToCollection({
       dataCollectionId: SETTINGS_COLLECTION_ID,
       item: {
-        _id: 'SINGLE_ITEM_ID',
+        // Wix data collection can be initialized as a "single item" that has the same ID
+        _id: 'SETTINGS',
         data: settingsData,
       },
     });

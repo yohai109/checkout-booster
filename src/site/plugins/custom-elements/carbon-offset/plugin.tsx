@@ -20,7 +20,7 @@ let refreshCheckout: CallbackFunction = () => {
 const CustomElement: FC<Props> = (props) => {
   const [settings, setSettings] = useState<Settings>();
   const [checked, setChecked] = useState<boolean>(false);
-  const [ecomId, setEcomId] = useState<string>('');
+  const [purchaseFlowId, setPurchaseFlowId] = useState<string>('');
 
   const checkoutId = useMemo(() => {
     return props.checkoutId && props.checkoutId.replaceAll('"', '');
@@ -34,11 +34,11 @@ const CustomElement: FC<Props> = (props) => {
 
     const fetchData = async () => {
       const [settingsData, { purchaseFlowId }] = await Promise.all([fetchSettings(), checkout.getCheckout(checkoutId)]);
-      const checkoutRes = await httpClient.fetchWithAuth(`${import.meta.env.BASE_API_URL}/checkout?ecomId=${purchaseFlowId}`);
+      const checkoutRes = await httpClient.fetchWithAuth(`${import.meta.env.BASE_API_URL}/checkout?purchaseFlowId=${purchaseFlowId}`);
       const checkoutData = await checkoutRes.json();
 
       setSettings(settingsData);
-      setEcomId(purchaseFlowId ?? '');
+      setPurchaseFlowId(purchaseFlowId ?? '');
       setChecked(checkoutData.shouldAdd ?? false);
     };
 
@@ -54,7 +54,7 @@ const CustomElement: FC<Props> = (props) => {
       ) : (
         <CarbonOffset
           settings={settings}
-          ecomId={ecomId}
+          purchaseFlowId={purchaseFlowId}
           checkoutId={checkoutId}
           checked={checked}
           refreshCheckout={refreshCheckout}
@@ -75,6 +75,7 @@ const customElement = reactToWebComponent(
   }
 );
 
+// Not yet implemented
 customElement.prototype.onRefreshCheckout = (callback: CallbackFunction) => {
   refreshCheckout = callback;
 };
