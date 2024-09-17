@@ -1,4 +1,5 @@
 import { items } from '@wix/data';
+import { auth } from '@wix/essentials';
 
 // Exposing utility functions over Wix Data APIs for easier usage and replacement of database
 
@@ -10,7 +11,7 @@ type DataItem = {
 export const getDataFromCollection = async ({
   dataCollectionId
 }: { dataCollectionId: string }) => {
-  const data = await items.queryDataItems({
+  const data = await auth.elevate(items.queryDataItems)({
     dataCollectionId,
   }).find();
 
@@ -22,7 +23,7 @@ export const safelyGetItemFromCollection = async ({
   itemId
 }: { dataCollectionId: string; itemId: string }) => {
   try {
-    const { data } = await items.getDataItem(
+    const { data } = await auth.elevate(items.getDataItem)(
       itemId,
       { dataCollectionId },
     );
@@ -41,7 +42,7 @@ export const upsertDataToCollection = async ({
   const existsInCollection = item._id && collection.items.find(existingItem => existingItem._id === item._id);
 
   if (item._id && existsInCollection) {
-    await items.updateDataItem(item._id, {
+    await auth.elevate(items.updateDataItem)(item._id, {
       dataCollectionId,
       dataItem: {
         data: {
@@ -51,7 +52,7 @@ export const upsertDataToCollection = async ({
       },
     });
   } else {
-    await items.insertDataItem({
+    await auth.elevate(items.insertDataItem)({
       dataCollectionId,
       dataItem: {
         _id: item._id ?? undefined,
